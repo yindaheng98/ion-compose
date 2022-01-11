@@ -2,10 +2,12 @@ version: "3"
 services:
   sfu:
     image: pionwebrtc/ion:latest-sfu
-    ports:
-      - "5000:5000/udp"
+    network_mode: "service:nats"
+    restart: always
+    depends_on:
+      - nats
     volumes:
-      - signal.toml:/configs/signal.toml
+      - ./sfu.toml:/configs/sfu.toml
     deploy:
       resources:
           limits:
@@ -15,7 +17,10 @@ services:
         max-size: 128k
   nats: # 位于别处的nats
     image: marcnuri/port-forward
-    network_mode: "service:[sfu]"
+    ports: # 给sfu用的端口
+    #因为sfu的network_mode是service:nats没法端口转发
+      - "5000:5000/udp"
+    restart: always
     environment:
       REMOTE_HOST: ${NATS_ADDR}
       REMOTE_PORT: ${NATS_PORT}
