@@ -4,8 +4,7 @@
 dc = "dc1"
 
 [log]
-level = "info"
-# level = "debug"
+level = "debug"
 
 [nats]
 url = "nats://127.0.0.1:4222"
