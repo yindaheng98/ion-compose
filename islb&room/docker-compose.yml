@@ -49,6 +49,7 @@ services:
     depends_on:
       - nats
       - redis
+      - islb
     volumes:
       - ./app-room.toml:/configs/app-room.toml:ro
     deploy:
