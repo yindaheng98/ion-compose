@@ -1,7 +1,9 @@
 version: "3"
 services:
   sfu:
-    image: pionwebrtc/ion:latest-sfu
+    build:
+      context: ../ion
+      dockerfile: docker/sfu.Dockerfile
     network_mode: "service:nats"
     restart: always
     depends_on:

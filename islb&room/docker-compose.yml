@@ -27,7 +27,9 @@ services:
         max-size: 128k
 
   islb:
-    image: pionwebrtc/ion:latest-islb
+    build:
+      context: ../ion
+      dockerfile: docker/islb.Dockerfile
     network_mode: "service:nats"
     restart: always
     depends_on:
@@ -43,7 +45,9 @@ services:
       options:
         max-size: 128k
   app-room:
-    image: pionwebrtc/ion:latest-app-room
+    build:
+      context: ../ion
+      dockerfile: docker/app-room.Dockerfile
     network_mode: "service:nats"
     restart: always
     depends_on:
