@@ -1,0 +1,22 @@
+version: "3"
+services:
+  sfu:
+    image: pionwebrtc/ion:latest-sfu
+    ports:
+      - "5000:5000/udp"
+    volumes:
+      - signal.toml:/configs/signal.toml
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
+  nats: # 位于别处的nats
+    image: marcnuri/port-forward
+    network_mode: "service:[sfu]"
+    environment:
+      REMOTE_HOST: ${NATS_ADDR}
+      REMOTE_PORT: ${NATS_PORT}
+      LOCAL_PORT: '4222'

@@ -1,0 +1,57 @@
+version: "3"
+services:
+  nats:
+    image: nats
+    expose:
+      - "4222"
+      - "6222"
+      - "8222"
+    ports:
+      - "4222:4222"
+      - "6222:4222"
+      - "8222:4222"
+    restart: always
+    deploy:
+      resources:
+          limits:
+            memory: 32M
+    logging:
+      options:
+        max-size: 128k
+  redis:
+    image: redis
+    network_mode: "service:[nats]"
+    restart: always
+    deploy:
+      resources:
+          limits:
+            memory: 32M
+    logging:
+      options:
+        max-size: 128k
+
+  islb:
+    image: pionwebrtc/ion:latest-islb
+    network_mode: "service:[nats]"
+    volumes:
+      - islb.toml:/configs/islb.toml
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
+  app-room:
+    image: pionwebrtc/ion:latest-app-room
+    network_mode: "service:[nats]"
+    volumes:
+      - app-room.toml:/configs/app-room.toml
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
+
