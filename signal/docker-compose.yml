@@ -2,10 +2,12 @@ version: "3"
 services:
   signal:
     image: pionwebrtc/ion:latest-signal
-    ports:
-      - "5551:5551/tcp"
+    network_mode: "service:nats"
+    restart: always
+    depends_on:
+      - nats
     volumes:
-      - signal.toml:/configs/signal.toml
+      - ./signal.toml:/configs/signal.toml
     deploy:
       resources:
           limits:
@@ -15,7 +17,10 @@ services:
         max-size: 128k
   nats: # 位于别处的nats
     image: marcnuri/port-forward
-    network_mode: "service:[signal]"
+    ports: # 给signal用的端口
+    #因为signal的network_mode是service:nats没法端口转发
+      - "5551:5551/tcp"
+    restart: always
     environment:
       REMOTE_HOST: ${NATS_ADDR}
       REMOTE_PORT: ${NATS_PORT}
