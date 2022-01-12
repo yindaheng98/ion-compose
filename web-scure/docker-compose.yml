@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  web:
+    image: pionwebrtc/ion-app-web:latest
+    build: ../ion-app-web
+    ports:
+       - 80:80
+    restart: always
+    depends_on:
+      - signal
+    volumes:
+      # prod caddy file
+      - "./prod.Caddyfile:/etc/caddy/Caddyfile"
+    environment:
+      # must set, used by caddy to download free certificate
+      - WWW_URL=${WWW_URL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
+
+  signal: # 位于别处的signal
+    image: marcnuri/port-forward
+    restart: always
+    environment:
+      REMOTE_HOST: ${SIGNAL_ADDR}
+      REMOTE_PORT: ${SIGNAL_PORT}
+      LOCAL_PORT: '5551'
