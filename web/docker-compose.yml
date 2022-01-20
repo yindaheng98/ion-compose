@@ -1,7 +1,6 @@
 version: '3.7'
 services:
   web:
-    image: pionwebrtc/ion-app-web:latest
     build: ../ion-app-web
     ports:
        - 80:80
