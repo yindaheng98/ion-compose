@@ -4,8 +4,7 @@ services:
     image: kylemanna/openvpn
     cap_add:
       - NET_ADMIN
-    ports:
-      - 1194:1194/udp
+    network_mode: host
     restart: always
     volumes:
       - ./openvpn:/etc/openvpn
