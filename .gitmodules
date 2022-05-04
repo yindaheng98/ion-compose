@@ -1,6 +1,6 @@
 [submodule "ion"]
 	path = ion
-	url = https://github.com/pion/ion
+	url = https://github.com/yindaheng98/ion
 [submodule "ion-app-web"]
 	path = ion-app-web
 	url = https://github.com/pion/ion-app-web
