@@ -1,0 +1,66 @@
+version: "3"
+services:
+  nats:
+    image: nats
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+      - "5551:5551/tcp"
+      # 给signal用的端口
+    restart: always
+    deploy:
+      resources:
+          limits:
+            memory: 32M
+    logging:
+      options:
+        max-size: 128k
+  redis:
+    image: redis
+    network_mode: "service:nats"
+    restart: always
+    deploy:
+      resources:
+          limits:
+            memory: 32M
+    logging:
+      options:
+        max-size: 128k
+
+  islb:
+    build:
+      context: ../ion
+      dockerfile: docker/islb.Dockerfile
+    network_mode: "service:nats"
+    restart: always
+    depends_on:
+      - nats
+      - redis
+    volumes:
+      - ./islb.toml:/configs/islb.toml:ro
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
+  signal:
+    build:
+      context: ../ion
+      dockerfile: docker/signal.Dockerfile
+    network_mode: "service:nats"
+    restart: always
+    depends_on:
+      - nats
+    volumes:
+      - ./signal.toml:/configs/signal.toml
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
+
