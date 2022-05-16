@@ -55,7 +55,7 @@ services:
     depends_on:
       - nats
     volumes:
-      - ./signal.toml:/configs/signal.toml
+      - ./signal.toml:/configs/signal.toml:ro
     deploy:
       resources:
           limits:
