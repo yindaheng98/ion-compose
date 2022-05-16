@@ -3,7 +3,7 @@
 dc = "dc1"
 
 [nats]
-url = "nats://192.168.94.131:4222"
+url = "nats://localhost:4222"
 
 
 [sfu]

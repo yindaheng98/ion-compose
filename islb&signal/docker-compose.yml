@@ -63,4 +63,17 @@ services:
     logging:
       options:
         max-size: 128k
+  stupid:
+    build: ../stupid
+    network_mode: host
+    restart: always
+    depends_on:
+      - nats
+    deploy:
+      resources:
+          limits:
+            memory: 256M
+    logging:
+      options:
+        max-size: 128k
 
