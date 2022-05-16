@@ -67,6 +67,7 @@ services:
     build: ../stupid
     network_mode: host
     restart: always
+    command: -conf /sfu.toml -filter "drawtext=text='%{localtime\:%Y-%M-%d %H.%m.%S}':fontsize=60:x=(w-text_w)/2:y=(h-text_h)/2:fontfile=/arial.ttf"
     depends_on:
       - nats
     deploy:
