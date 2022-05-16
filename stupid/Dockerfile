@@ -3,7 +3,7 @@ WORKDIR /
 RUN apk add git make && \
     git clone https://github.com/yindaheng98/dion && \
     cd dion && make vendor
-RUN make stupid
+RUN cd /dion && make stupid
 
 FROM jrottenberg/ffmpeg:4-alpine
 WORKDIR /
