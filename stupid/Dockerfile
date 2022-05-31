@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine AS builder
+FROM golang:1.18-alpine AS builder
 WORKDIR /
 RUN apk add git make && \
     git clone https://github.com/yindaheng98/dion && \
