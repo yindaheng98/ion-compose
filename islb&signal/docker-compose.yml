@@ -16,29 +16,13 @@ services:
     logging:
       options:
         max-size: 128k
-  redis:
-    image: redis
-    network_mode: "service:nats"
-    restart: always
-    deploy:
-      resources:
-          limits:
-            memory: 32M
-    logging:
-      options:
-        max-size: 128k
 
   islb:
-    build:
-      context: ../ion
-      dockerfile: docker/islb.Dockerfile
+    build: ../islb
     network_mode: "service:nats"
     restart: always
     depends_on:
       - nats
-      - redis
-    volumes:
-      - ./islb.toml:/configs/islb.toml:ro
     deploy:
       resources:
           limits:
